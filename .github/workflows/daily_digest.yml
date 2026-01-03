@@ -1,4 +1,4 @@
-name: Daily AI Tech Digest
+name: Daily Stock Market Advisor
 
 on:
   schedule:

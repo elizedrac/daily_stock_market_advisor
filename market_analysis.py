@@ -27,19 +27,31 @@ def analyze_articles(articles: List[Dict], model: str = "gpt-4o-mini") -> str:
 
     payload = {
         "model": model,
-        "messages": [
-            {"role": "system", "content": "Be concise, evidence-based, and include key risks."},
-            {"role": "user", "content": "\n".join(prompt_lines)},
+        "input": [
+            {
+                "role": "system",
+                "content": "Be concise, evidence-based, and include key risks."
+            },
+            {
+                "role": "user",
+                "content": "\n".join(prompt_lines)
+            }
         ],
         "temperature": 0.2,
     }
 
-    headers = {"Authorization": f"Bearer {OPENAI_API_KEY.strip()}"}
+    headers = {
+        "Authorization": f"Bearer {OPENAI_API_KEY.strip()}",
+        "Content-Type": "application/json",
+    }
+
     response = requests.post(
-        "https://api.openai.com/v1/chat/completions",
+        "https://api.openai.com/v1/responses",
         json=payload,
         headers=headers,
         timeout=45,
     )
+
     response.raise_for_status()
-    return response.json()["choices"][0]["message"]["content"].strip()
+
+    return response.json()["output_text"].strip()

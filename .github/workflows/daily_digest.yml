@@ -2,7 +2,7 @@ name: Daily AI Tech Digest
 
 on:
   schedule:
-    - cron: "0 13 * * *"   # daily at 9am ET
+    - cron: "0 13,22 * * *"   # daily at 8am ET and 5pm ET
   workflow_dispatch:
 
 jobs:

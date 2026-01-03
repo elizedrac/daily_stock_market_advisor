@@ -1,12 +1,12 @@
 from datetime import datetime
-from config import AI_KEYWORDS, SOURCE_WEIGHTS, EXCLUDE_KEYWORDS
+from config import KEYWORDS, SOURCE_WEIGHTS, EXCLUDE_KEYWORDS
 
 def score_article(article):
     score = 0
     text = (article["title"] + " " + (article.get("description") or "")).lower()
     url = article["url"]
 
-    for keyword, weight in AI_KEYWORDS.items():
+    for keyword, weight in KEYWORDS.items():
         if keyword in text:
             score += weight
 
@@ -15,11 +15,6 @@ def score_article(article):
         score += SOURCE_WEIGHTS.get(source_name, 1)
     else:
         score += 1  # minimal weight if source missing
-
-    # adhere to only news articles
-    for keyword in EXCLUDE_KEYWORDS:
-        if keyword in text or keyword in url:
-            return 0
 
     published = datetime.fromisoformat(article["publishedAt"].replace("Z", ""))
     hours_old = (datetime.utcnow() - published).total_seconds() / 3600

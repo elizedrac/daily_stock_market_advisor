@@ -54,4 +54,13 @@ def analyze_articles(articles: List[Dict], model: str = "gpt-4o-mini") -> str:
 
     response.raise_for_status()
 
-    return response.json()["output_text"].strip()
+    data = response.json()
+
+    output_text = []
+    for item in data.get("output", []):
+        if item.get("type") == "message":
+            for content in item.get("content", []):
+                if content.get("type") == "output_text":
+                    output_text.append(content.get("text", ""))
+
+    return "\n".join(output_text).strip()

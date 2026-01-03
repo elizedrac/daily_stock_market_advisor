@@ -7,7 +7,7 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 DEFAULT_NEWS_QUERY = "stock market OR equities OR stocks OR S&P 500 OR Dow Jones OR Nasdaq"
 
 # Keyword scoring for stock/equity relevance
-AI_KEYWORDS = {
+KEYWORDS = {
     # Indexes / benchmarks
     "s&p": 5,
     "s&p 500": 5,

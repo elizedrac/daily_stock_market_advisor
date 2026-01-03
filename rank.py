@@ -1,5 +1,5 @@
 from datetime import datetime
-from config import KEYWORDS, SOURCE_WEIGHTS, EXCLUDE_KEYWORDS
+from config import KEYWORDS, SOURCE_WEIGHTS
 
 def score_article(article):
     score = 0

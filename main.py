@@ -14,7 +14,7 @@ def main():
     ranked = sorted(articles, key=score_article, reverse=True)
 
     top_articles = ranked[:10]
-    analysis = analyze_articles(top_articles)
+    # analysis = analyze_articles(top_articles)
 
     lines = ["Top articles:"]
     for i, article in enumerate(top_articles[:5], 1):
@@ -22,8 +22,8 @@ def main():
         lines.append(article["url"])
         lines.append("")
 
-    lines.append("LLM analysis:")
-    lines.append(analysis)
+    # lines.append("LLM analysis:")
+    # lines.append(analysis)
 
     body = "\n".join(lines)
 

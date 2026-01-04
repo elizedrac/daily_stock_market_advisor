@@ -3,19 +3,39 @@ import os
 NEWS_API_KEY = os.environ.get("NEWS_API_KEY")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
-# Query string for stock/equity news searches (used in fetch_news)
-DEFAULT_NEWS_QUERY = "stock market OR equities OR stocks OR S&P 500 OR Dow Jones OR Nasdaq"
+# Tune based on your interests/current investment portfolio
+STOCKS_OF_INTEREST = [
+    ("VST", "Vistra Corp"),
+    ("VRT", "Vertiv Holdings"),
+    ("JPM", "JPMorgan Chase"),
+    ("GS", "Goldman Sachs"),
+    ("TSLA", "Tesla"),
+    ("NVDA", "NVIDIA"),
+]
+
+# Query string for stock/equity news searches 
+STOCKS_OF_INTEREST_QUERY = " OR ".join([f"{ticker} OR {name}" for ticker, name in STOCKS_OF_INTEREST])
+
+# Query string for stock/equity news searches 
+DEFAULT_NEWS = (
+    "stocks OR stock market OR equities OR indexes OR global markets OR macro OR "
+    "GDP OR inflation OR CPI OR jobs report OR unemployment OR earnings OR "
+    "interest rates OR Fed OR recession OR volatility"
+)
+
+# join default query and stocks of interest query (used in fetch_news)
+DEFAULT_NEWS_QUERY = DEFAULT_NEWS + " OR " + STOCKS_OF_INTEREST_QUERY
 
 # Keyword scoring for stock/equity relevance
 KEYWORDS = {
     # Indexes / benchmarks
-    "s&p": 5,
-    "s&p 500": 5,
-    "nasdaq": 5,
-    "dow jones": 5,
-    "russell 2000": 4,
+    "s&p": 5,          # shorthand for S&P 500, broad U.S. large-cap benchmark
+    "s&p 500": 5,      # 500 large U.S. companies; common market barometer
+    "nasdaq": 5,       # tech-heavy Nasdaq Composite index
+    "dow jones": 5,    # Dow Jones Industrial Average, 30 large blue chips
+    "russell 2000": 4, # small-cap U.S. index
 
-    # Companies / tickers of interest
+    # General companies / tickers of interest
     "apple": 4,
     "microsoft": 4,
     "amazon": 4,

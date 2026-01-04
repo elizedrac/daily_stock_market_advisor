@@ -1,5 +1,5 @@
 from datetime import datetime
-from config import KEYWORDS, SOURCE_WEIGHTS, STOCKS_OF_INTEREST
+from config import KEYWORDS, SOURCE_WEIGHTS, STOCKS_OF_INTEREST, EXCLUDE_KEYWORDS
 
 def score_article(article):
     score = 0
@@ -10,7 +10,7 @@ def score_article(article):
     # score the article based on how relevant it is to the stocks of interest
     for ticker, name in STOCKS_OF_INTEREST:
         if ticker in text or name in text:
-            score += 50 # significant weight for stocks of interest (primary focus)
+            score += 10 # higher weight for stocks of interest (priority)
 
     # score the article based on key keywords
     for keyword, weight in KEYWORDS.items():
@@ -23,6 +23,11 @@ def score_article(article):
         score += SOURCE_WEIGHTS.get(source_name, 1)
     else:
         score += 1  # minimal weight if source missing
+
+    # remove non-news articles
+    for keyword in EXCLUDE_KEYWORDS:
+        if keyword in text or keyword in source_name or keyword in url:
+            score = 0
 
     # score the article based on how recent it is
     published = datetime.fromisoformat(article["publishedAt"].replace("Z", ""))

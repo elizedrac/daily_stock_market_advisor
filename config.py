@@ -108,11 +108,13 @@ SOURCE_WEIGHTS = {
 EXCLUDE_KEYWORDS = [
     # package/release noise
     "pypi",
+    "biztoc",
     "pip",
     "npm",
     "release notes",
     "changelog",
     "library",
+    "llcuda",
     "framework",
     # repos and code snippets
     "github",

@@ -103,3 +103,38 @@ SOURCE_WEIGHTS = {
     "The Economist": 3,
     "Bloomberg Opinion": 3,
 }
+
+# Exclude non-news/dev chatter (keep lowercase; substring checks)
+EXCLUDE_KEYWORDS = [
+    # package/release noise
+    "pypi",
+    "pip",
+    "npm",
+    "release notes",
+    "changelog",
+    "library",
+    "framework",
+    # repos and code snippets
+    "github",
+    "gitlab",
+    "bitbucket",
+    "repository",
+    "source code",
+    "code sample",
+    "open source",
+    # how-tos and q&a
+    "tutorial",
+    "how to",
+    "walkthrough",
+    "guide",
+    "stack overflow",
+    # devops/tooling updates
+    "docker",
+    "kubernetes",
+    "terraform",
+    "aws",
+    "azure",
+    "gcp",
+    # misc low-signal
+    "project"
+]

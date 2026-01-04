@@ -137,18 +137,6 @@ EXCLUDE_KEYWORDS = [
     "aws",
     "azure",
     "gcp",
-    # politics (typically not investment-useful for this digest)
-    "trump",
-    "biden",
-    "kamala",
-    "election",
-    "campaign",
-    "republican",
-    "democrat",
-    "congress",
-    "senate",
-    "house",
-    "mamdani",
     # misc low-signal
     "project",
     "listing"

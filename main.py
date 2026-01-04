@@ -23,7 +23,7 @@ def main():
 
     # format the email body
     lines = ["Top articles:"]
-    for i, article in enumerate(top_articles[:5], 1):
+    for i, article in enumerate(top_articles[:10], 1):
         lines.append(f"{i}. {article['title']}")
         lines.append(article["url"])
         lines.append("")

@@ -16,7 +16,7 @@ def analyze_articles(articles: List[Dict], model: str = "gpt-4o-mini") -> str:
     prompt_lines = [
     f"You are an equity analyst. Portfolio: {', '.join([f'{t} ({n})' for t, n in STOCKS_OF_INTEREST])}.",
     "Instructions:",
-    "- For each article that mentions a portfolio ticker, summarize the news, price/vol impact, and key risks; cite title/source.",
+    "- For each article that mentions a portfolio ticker or is related to the portfolio at all, summarize the news, price/vol impact, and key risks; cite title/source.",
     "- Give a 1–2 sentence hold/buy/sell view per mentioned portfolio ticker.",
     "- From articles not about portfolio tickers, propose 2 - 5 new tickers with rationale and major risks; if uncertain or insufficient info, say so.",
     "- If an article has nothing investment-useful, note that briefly and instead summarize the article in a couple of sentences and provide a brief view on how this might impact the market and/or future investments.",

@@ -9,6 +9,8 @@ def analyze_articles(articles: List[Dict], model: str = "gpt-4o-mini") -> str:
         raise RuntimeError("OPENAI_API_KEY is missing. Set it in your environment or .env.")
 
     stock_data = get_stock_data(STOCKS_OF_INTEREST)
+    
+    print("stock_data", stock_data)
 
     # create the prompt (tune as needed)
     prompt_lines = [

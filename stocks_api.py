@@ -20,7 +20,6 @@ def get_stock_data(stocks: list[tuple[str, str]]) -> list[dict]:
         normalized = []
         for item in raw_data:
             normalized.append({
-                "symbol": item.get("symbol"),                    # Ticker
                 "price": item.get("price"),                      # Last traded price
                 "open": item.get("open"),                        # Today's opening price
                 "high": item.get("dayHigh"),                     # Intraday high

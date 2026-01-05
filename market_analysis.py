@@ -1,38 +1,55 @@
 from typing import List, Dict
 import requests
 from config import OPENAI_API_KEY, STOCKS_OF_INTEREST
-
+from stocks_api import get_stock_data
 
 def analyze_articles(articles: List[Dict], model: str = "gpt-4o-mini") -> str:
     # check if the API key is set
     if not OPENAI_API_KEY or not OPENAI_API_KEY.strip():
         raise RuntimeError("OPENAI_API_KEY is missing. Set it in your environment or .env.")
 
-    # check if any articles are provided
-    if not articles:
-        return "No articles provided for analysis."
+    stock_data = get_stock_data(STOCKS_OF_INTEREST)
 
     # create the prompt (tune as needed)
     prompt_lines = [
-    f"You are an equity analyst. Portfolio: {', '.join([f'{t} ({n})' for t, n in STOCKS_OF_INTEREST])}.",
-    "Instructions:",
-    "- For each article that mentions a portfolio ticker or is related to the portfolio at all, summarize the news, price/vol impact, and key risks; cite title/source.",
-    "- Give a 1–2 sentence hold/buy/sell view per mentioned portfolio ticker.",
-    "- From articles not about portfolio tickers, propose 2 - 5 new tickers with rationale and major risks; if uncertain or insufficient info, say so.",
-    "- If an article has nothing investment-useful, note that briefly and instead summarize the article in a couple of sentences and provide a brief view on how this might impact the market and/or future investments.",
-    "Format:",
-    "Portfolio updates:",
-    "- <TICKER>: <summary>; risks: <...>; investment view: <buy/hold/sell> (source: <title/source>)",
-    "Potential investments:",
-    "- <TICKER>: <rationale>; risks: <...> (source: <title/source>)",
-    "",
-    "Articles:",
+        f"You are an equity analyst. Portfolio: {', '.join([f'{t} ({n})' for t, n in STOCKS_OF_INTEREST])}.",
+        "Instructions:",
+        "- Use both recent articles and the current stock stats to form views, if provided.",
+        "- For each portfolio ticker mentioned in articles, summarize existing news, price/vol impact, and key risks; cite title/source.",
+        "- If stock data is provided for that news article, report it and use it in your analysis.",
+        "- For portfolio tickers without articles, base the view on the provided stock stats. Report all stats, analyze, and give investment view.",
+        "- Give a 1–2 sentence hold/buy/sell view per portfolio ticker.",
+        "- From articles not about portfolio tickers, propose 2 - 5 new tickers with rationale and major risks; if uncertain or insufficient info, say so.",
+        "- If an article has nothing investment-useful, note that briefly and instead summarize the article in a couple of sentences and provide a brief view on how this might impact the market and/or future investments.",
+        "Format:",
+        "Portfolio updates:",
+        "- <TICKER>: price=<price>, open=<open>, high=<high>, low=<low>, prev_close=<prev_close>, volume=<volume> (source: <title/source>)",
+        "- <TICKER>: <summary>; risks: <...>; investment view: <buy/hold/sell> (source: <title/source>)",
+        "Potential investments:",
+        "- <TICKER>: <rationale>; risks: <...> (source: <title/source>)",
+        "",
+        "Stock data snapshot (use even if no articles):",
     ]
+    if stock_data:
+        for item in stock_data:
+            prompt_lines.append(
+                f"- {item.get('symbol')}: price={item.get('price')}, "
+                f"open={item.get('open')}, high={item.get('high')}, low={item.get('low')}, "
+                f"previousClose={item.get('previousClose')}, volume={item.get('volume')}"
+            )
+    else:
+        prompt_lines.append("- No stock data available for this ticker.")
+    prompt_lines.extend([
+        "",
+        "Articles:",
+    ])
     for article in articles:
         prompt_lines.append(
             f"- {article.get('title')} ({article.get('source', {}).get('name')}): "
             f"{article.get('description') or ''} {article.get('url')}"
         )
+    if not articles:
+        prompt_lines.append("- No articles provided for analysis.")
 
     # create the payload (request body)
     payload = {

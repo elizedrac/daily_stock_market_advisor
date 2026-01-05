@@ -33,6 +33,7 @@ def analyze_articles(articles: List[Dict], model: str = "gpt-4o-mini") -> str:
         "- <TICKER>: <rationale>; risks: <...> (source: <title/source>)",
         "",
         "Stock data snapshot (use even if no articles):",
+        "Conclude with a brief summary of the market and/or future investments based on all the information provided. If not enough information is provided, say so (do NOT make up any information) and instead summarize daily articles and provide a brief view on how this might impact the market and/or future investments.",
     ]
     if stock_data:
         for item in stock_data:

@@ -20,13 +20,16 @@ def get_stock_data(stocks: list[tuple[str, str]]) -> list[dict]:
         normalized = []
         for item in raw_data:
             normalized.append({
-                "symbol": item.get("symbol"),
-                "price": item.get("price"),
-                "open": item.get("open"),
-                "high": item.get("high"),
-                "low": item.get("low"),
-                "previousClose": item.get("previousClose"),
-                "volume": item.get("volume"),
+                "symbol": item.get("symbol"),                    # Ticker
+                "price": item.get("price"),                      # Last traded price
+                "open": item.get("open"),                        # Today's opening price
+                "high": item.get("dayHigh"),                     # Intraday high
+                "low": item.get("dayLow"),                       # Intraday low
+                "previous_close": item.get("previousClose"),     # Prior session close
+                "volume": item.get("volume"),                    # Shares traded today
+                "change": item.get("change"),                    # Price change vs previous close
+                "change_pct": item.get("changePercentage"),      # Percent change vs previous close
+                "market_cap": item.get("marketCap"),             # Market capitalization
             })
         return normalized
     except requests.exceptions.RequestException as e:

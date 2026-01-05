@@ -33,9 +33,10 @@ def analyze_articles(articles: List[Dict], model: str = "gpt-4o-mini") -> str:
     if stock_data:
         for item in stock_data:
             prompt_lines.append(
-                f"- {item.get('symbol')}: price={item.get('price')}, "
-                f"open={item.get('open')}, high={item.get('high')}, low={item.get('low')}, "
-                f"previousClose={item.get('previousClose')}, volume={item.get('volume')}"
+                f"- {item.get('symbol')}: "
+                f"price={item.get('price')}, open={item.get('open')}, high={item.get('high')}, low={item.get('low')}, "
+                f"prev_close={item.get('previous_close')}, volume={item.get('volume')}, "
+                f"change={item.get('change')}, change_pct={item.get('change_pct')}, market_cap={item.get('market_cap')}"
             )
     else:
         prompt_lines.append("- No stock data available for this ticker.")

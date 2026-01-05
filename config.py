@@ -2,6 +2,7 @@ import os
 
 NEWS_API_KEY = os.environ.get("NEWS_API_KEY")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+STOCKS_API_KEY = os.environ.get("STOCKS_API_KEY")
 
 # Tune based on your interests/current investment portfolio
 STOCKS_OF_INTEREST = [

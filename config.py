@@ -12,6 +12,9 @@ STOCKS_OF_INTEREST = [
     ("GS", "Goldman Sachs"),
     ("TSLA", "Tesla"),
     ("NVDA", "NVIDIA"),
+    ("SHLD", "Shield"),
+    ("T", "AT&T"),
+    ("FCX", "Freeport")
 ]
 
 # Query string for stock/equity news searches 
